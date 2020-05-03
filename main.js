@@ -10,21 +10,7 @@ function ChatBoxMessage(fromId, toId){//main
     document.getElementById('textarea' + fromId).value="";
     // encript message
     let hashedMessage = hashcode(message);
-
-    let senderKey = null;
-
-    if (fromId == 1){ 
-        senderKey = privateKeyBob; //A
-        receiverkey = askPrivateKey(fromId); //BG
-    }
-    else if(fromId == 2) {
-        senderKey = privateKeyAlice; //B
-        receiverkey = askPrivateKey(fromId); //AG
-    }
-    if(receiverkey == null || senderKey == null ){console.log("error while ecrypting, unknown ID");return;}
-
-    let sharedAESKey = generateAESKey(senderKey, receiverkey); //generateAESKey(A or B, AG or BG);
-
+    
     let encriptedMessage = encryptWithAes( message,sharedAESKey);
 
     //send encypted message
@@ -62,21 +48,7 @@ function UploadMessage(fromId, toId){
 }
 
 {//recieve
-function chatboxReceiveMessage(id ,encryptedmessage, hashedMessage) {
-    //decrypt message
-    if (id == 1){ 
-        senderKey = askPrivateKey(2); //AG
-        receiverkey = privateKeyBob ; //B
-    }
-    else if(id == 2) {
-        senderKey = askPrivateKey(1); //BG
-        receiverkey = privateKeyAlice; //A
-    }
-    if(receiverkey == null || senderKey == null ){console.log("error while ecrypting, unknown ID");return;}
-
-    let sharedAESKey = generateAESKey(receiverkey,senderKey); //generateAESKey(A or B, AG or BG);
-
-    let message = decryptWithAes(encryptedmessage, sharedAESKey).toString();
+function chatboxReceiveMessage(hashedMessage) {
     //✔ hash
     let hash = "another error occured"
     if(hashcode(message) == hashedMessage){
@@ -89,7 +61,7 @@ function chatboxReceiveMessage(id ,encryptedmessage, hashedMessage) {
     displayMessageReceiver(message, hash);
 }
 
-function chatboxReceiveImage(encyrptedFilename , hashedMessage) {
+function chatboxReceiveImage( hashedMessage) {
     //decrypt message
 
     //hash
