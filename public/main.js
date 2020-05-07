@@ -133,3 +133,11 @@ function hashcode(s){
     }
 
 }
+
+function loadName(){
+    console.log(window.location.search);
+    let name = window.location.search.split('=')[1];
+    console.log(name)
+    document.getElementById('name').innerHTML = name;
+
+}

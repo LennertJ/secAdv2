@@ -24,7 +24,10 @@ Login.addEventListener('submit', (e) => {
   const password = Login.querySelector('.password').value
   post('/login', { username, password })
     .then(({ status }) => {
-      if (status === 200) alert('login success')
+      if (status === 200) {
+        alert('login success')
+        window.location.replace("http://localhost:7555/messaging.html?u="+username);
+      }
       else alert('login failed')
     })
 })
