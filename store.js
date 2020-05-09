@@ -2,6 +2,15 @@ const crypto = require('crypto')
 const knex = require('knex')(require('./knexfile'))
 
 module.exports = {
+  createMessage ({sender,receiver,message,time}){
+    console.log(`message sent at( ${time})`)
+    return knex('message').insert({
+      message,
+      sender,
+      time,
+      receiver
+    })
+  },
   createUser ({ username, password }) {
     console.log(`Add user ${username}`)
     const { salt, hash } = saltHashPassword({ password })
@@ -22,6 +31,10 @@ module.exports = {
         })
         return { success: hash === user.encrypted_password }
       })
+  },
+
+  getMessage({sender, receiver}){
+    return knex('user').where({sender, receiver})
   }
 }
 

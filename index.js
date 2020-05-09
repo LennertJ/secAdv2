@@ -23,6 +23,24 @@ app.post('/login', (req, res) => {
       else res.sendStatus(401)
     })
 })
+app.post('/message', (req, res) => {
+  store
+    .getMessages({sender, receiver})
+    .then(() => {
+      response.setHeader('Content-Type', 'application/json');
+      const responseBody = { headers, method, url, body };
+
+      response.write(JSON.stringify(responseBody));
+      response.end();
+    }
+    
+    
+})
+app.get('/message', (req, res) => {
+  store.then(() => res.sendStatus(200))
+})
+
+
 app.listen(7555, () => {
   console.log('Server running on http://localhost:7555')
 })

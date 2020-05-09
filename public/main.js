@@ -131,13 +131,9 @@ var loadFile = function(event) {
 function hashcode(s){
     return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);              
     }
-
 }
 
 function loadName(){
-    console.log(window.location.search);
     let name = window.location.search.split('=')[1];
-    console.log(name)
     document.getElementById('name').innerHTML = name;
-
 }
