@@ -33,8 +33,8 @@ module.exports = {
       })
   },
 
-  getMessage({sender, receiver}){
-    return knex('user').where({sender, receiver})
+  getMessages({sender, receiver}){
+    return knex('message').select().where({sender, receiver})
   }
 }
 

@@ -5,8 +5,9 @@ sendMessage.addEventListener('submit', (e) => {
   const receiver = sendMessage.querySelector('#receiver').value;
   const sender = document.getElementById('name').innerHTML;
   const time =  Date.now();
-  console.log("[" + time + "] " + sender  + ": " + message + " to: " + receiver)
+  //console.log("[" + time + "] " + sender  + ": " + message + " to: " + receiver)
   post('/message', { message,sender,receiver,time })
+  get('/message/sender/' + sender + '/receiver/' + receiver, { sender,receiver})
 })
 
 function post (path, data) {
@@ -20,3 +21,13 @@ function post (path, data) {
       body: JSON.stringify(data)
     })
   }
+
+function get(path){
+  return window.fetch(path, {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+}

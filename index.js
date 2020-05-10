@@ -24,20 +24,32 @@ app.post('/login', (req, res) => {
     })
 })
 app.post('/message', (req, res) => {
-  store
-    .getMessages({sender, receiver})
-    .then(() => {
-      response.setHeader('Content-Type', 'application/json');
-      const responseBody = { headers, method, url, body };
-
-      response.write(JSON.stringify(responseBody));
-      response.end();
-    }
-    
-    
+  store.createMessage ({
+    sender: req.body.sender,
+    receiver: req.body.receiver,
+    message: req.body.message,
+    time: req.body.time})
+    .then(() => res.sendStatus(200))
 })
-app.get('/message', (req, res) => {
-  store.then(() => res.sendStatus(200))
+app.get('/message/sender/:sender/receiver/:receiver', (req, response) => {
+  console.log("retrieving messages from: " + req.params.sender + " to " + req.params.receiver);
+  let responsebodyChunk1 = store.getMessages({
+    sender: req.params.sender,
+    receiver: req.params.receiver})
+    .then(() => {
+      let responsebodyChunk2 = store.getMessages({
+        sender: req.params.sender,
+        receiver: req.params.receiver})
+      .then(() => {
+        response.setHeader('Content-Type', 'application/json');
+        let body = responsebodyChunk1 + ", " + responsebodyChunk2;
+        let url = "http://localhost:7555/messaging?u=" + req.params.sender
+        const responseBody = {url, body };
+
+        response.write(JSON.stringify(responseBody));
+        response.end();
+      })
+    })
 })
 
 
