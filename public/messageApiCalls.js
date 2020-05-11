@@ -35,5 +35,13 @@ function get(path){
 }
 
 function display(data){
-  
+  //console.log(data.body);
+  for (let i = 0; i < data.body.length; i++) {
+    if(data.body[i].sender = document.getElementById('name').innerHTML){
+      displayMessageOrigin(data.body[i]["Message"]);
+    }else{
+      displayMessageReceiver(data.body[i]["Message"],1);
+    }
+    console.log(data.body[i].Message);
+  }
 }
