@@ -31,25 +31,30 @@ app.post('/message', (req, res) => {
     time: req.body.time})
     .then(() => res.sendStatus(200))
 })
-app.get('/message/sender/:sender/receiver/:receiver', (req, response) => {
+app.get('/message/sender/:sender/receiver/:receiver', async(req, response) => {
   console.log("retrieving messages from: " + req.params.sender + " to " + req.params.receiver);
-  let responsebodyChunk1 = store.getMessages({
+  let responsebodyChunk1 = await store.getMessages({
     sender: req.params.sender,
     receiver: req.params.receiver})
-    .then(() => {
-      let responsebodyChunk2 = store.getMessages({
-        sender: req.params.sender,
-        receiver: req.params.receiver})
-      .then(() => {
-        response.setHeader('Content-Type', 'application/json');
-        let body = responsebodyChunk1 + ", " + responsebodyChunk2;
-        let url = "http://localhost:7555/messaging?u=" + req.params.sender
-        const responseBody = {url, body };
+  let responsebodyChunk2 = await store.getMessages({
+    sender: req.params.receiver,
+    receiver: req.params.sender})
 
-        response.write(JSON.stringify(responseBody));
-        response.end();
-      })
-    })
+  let responseArray = [];
+  for(let i = 0; i < responsebodyChunk1.length;i++){
+    responseArray.push( JSON.stringify(responsebodyChunk1[i], null, 4));
+  }
+  for(let i = 0; i<responsebodyChunk2.length;i++){
+    responseArray.push(JSON.stringify(responsebodyChunk2[i], null, 4));
+  }
+      
+  response.setHeader('Content-Type', 'application/json');
+  let body = responseArray;
+  let url = "http://localhost:7555/messaging?u=" + req.params.sender;
+  const responseBody = {url, body };
+  console.log(JSON.stringify(responseBody));
+  response.write(JSON.stringify(responseBody));
+  response.end();
 })
 
 

@@ -32,9 +32,10 @@ module.exports = {
         return { success: hash === user.encrypted_password }
       })
   },
-
   getMessages({sender, receiver}){
-    return knex('message').select().where({sender, receiver})
+    return knex('message')
+    .select()
+    .where({'sender': sender,'receiver': receiver})
   }
 }
 
