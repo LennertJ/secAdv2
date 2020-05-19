@@ -84,7 +84,7 @@ function displayMessageOrigin( message) {
     let messageParagraph = document.createElement("P");
     messageParagraph.innerHTML = message;
     messagefield.appendChild(messageParagraph);
-    document.getElementById("chatbox1").appendChild(messagefield);
+    document.getElementById("messagebox").appendChild(messagefield);
 }
 
 function displayImageOrigin() {
@@ -94,7 +94,7 @@ function displayImageOrigin() {
     messageImage.id = "image" + imagecounter;
     messageImage.src = cachedImage;
     messagefield.appendChild(messageImage);
-    document.getElementById("chatbox1").appendChild(messagefield);
+    document.getElementById("messagebox").appendChild(messagefield);
 }
 
 function displayMessageReceiver(message, hash) {
@@ -106,7 +106,7 @@ function displayMessageReceiver(message, hash) {
     hashcheck.innerHTML = hash;
     messagefield.appendChild(hashcheck);
     messagefield.appendChild(messageParagraph);
-    document.getElementById("chatbox1").appendChild(messagefield);
+    document.getElementById("messagebox").appendChild(messagefield);
 }
 
 function displayImageReceiver(hash) {
@@ -119,7 +119,7 @@ function displayImageReceiver(hash) {
     hashcheck.innerHTML = hash;
     messagefield.appendChild(hashcheck);
     messagefield.appendChild(messageImage);
-    document.getElementById("chatbox1").appendChild(messagefield);
+    document.getElementById("messagebox").appendChild(messagefield);
 }
 }
 
@@ -136,4 +136,5 @@ function hashcode(s){
 function loadName(){
     let name = window.location.search.split('=')[1];
     document.getElementById('name').innerHTML = name;
+    loadContacts();
 }

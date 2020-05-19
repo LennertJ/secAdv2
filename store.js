@@ -36,7 +36,12 @@ module.exports = {
     return knex('message')
     .select()
     .where({'sender': sender,'receiver': receiver})
+  },
+  getReceiver(){
+    return knex('user')
+    .select('username')
   }
+  
 }
 
 function saltHashPassword ({

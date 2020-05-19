@@ -7,8 +7,21 @@ sendMessage.addEventListener('submit', (e) => {
   const time =  Date.now();
   //console.log("[" + time + "] " + sender  + ": " + message + " to: " + receiver)
   post('/message', { message,sender,receiver,time })
-  get('/message/sender/' + sender + '/receiver/' + receiver, { sender,receiver})
+
 })
+
+function loadContacts(){
+  let sender = document.getElementById('name').innerHTML;
+  return getContacts('/message/sender/'+ sender, { sender });
+}
+
+function getAdapter(){
+  let sender = document.getElementById('name').innerHTML;
+  document.getElementById('messagebox').innerHTML ="";
+  var e = document.getElementById("receiver");
+  var receiver = e.options[e.selectedIndex].value;
+  return get('/message/sender/' + sender + '/receiver/' + receiver, { sender,receiver})
+}
 
 function post (path, data) {
   console.log(data);
@@ -20,7 +33,19 @@ function post (path, data) {
       },
       body: JSON.stringify(data)
     })
-  }
+}
+
+function getContacts(path,{sender}){
+  return window.fetch(path, {
+    method: 'get',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => displayContacts(data));
+}
 
 function get(path){
   return window.fetch(path, {
@@ -32,6 +57,19 @@ function get(path){
   })  
   .then(response => response.json())
   .then(data => display(data));
+}
+
+function displayContacts(contacts){
+  var e = document.getElementById("receiver");
+  console.log(e);
+  var catOptions = '<select id="receiver" name="" onchange="getAdapter()">';
+
+  for(let i = 0; i<contacts.body.length; i++){
+    
+    catOptions += '<option value="' + JSON.parse( contacts.body[i]).username  + '">' + JSON.parse(contacts.body[i]).username + "</option>";
+  }
+  catOptions += "</select>"
+  e.innerHTML = catOptions;
 }
 
 function display(data){

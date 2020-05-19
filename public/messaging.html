@@ -7,7 +7,7 @@
 <body onload="loadName()">
     <form class="chatbox1" id="chatbox1">
         <h2>Chat Messages from: <span id="name"></span> to      
-            <select id="receiver" name="receiverList">
+            <select id="receiver" name="receiverList" onchange="getAdapter()">
                 <option value="joe">joe</option>
             </select>
         </h2>
@@ -16,6 +16,7 @@
         <button id="submit" value="submit"> submit</button>
         <input type="file" accept="image/*">
         <button id="submit1" value="submit"> submit</button>
+        <div id="messagebox"></div>
 
     </form>
     <script src="main.js"></script>
